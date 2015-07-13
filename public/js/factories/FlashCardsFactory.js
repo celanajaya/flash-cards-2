@@ -1,5 +1,5 @@
-app.factory("FlashCardsFactory", function($http){
-    return {
+app.factory("FlashCardsFactory", function($http, $rootScope){
+    var obj = {
         getFlashCards: function(category){
             var queryParams = {};
             if (category) {
@@ -13,4 +13,5 @@ app.factory("FlashCardsFactory", function($http){
             });
         }
     };
+    return obj;
 });

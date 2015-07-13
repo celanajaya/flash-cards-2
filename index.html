@@ -8,14 +8,27 @@
     </head>
     <body ng-app="FlashCards">
         <div ng-controller="NewCardController">
-            <input type= "text" ng-model= "newCard.question" placeholder= "Write a question"></input>
-            <select ng-model= "newCard.category">
-            <option ng-repeat= "category in categories" value = "{{category}}">{{category}}</option>
-            </select>
-            <div ng-repeat= "answer in newCard.answers">
-            <input type = "text"  ng-model="newCard.answers[$index].text" placeholder="Enter answer choice {{$index+1}}"></input><input type="checkbox" ng-model="newCard.answers[$index].correct">correct: {{newCard.answers[$index].correct}}</input>
-            </div>
-            <button type="button" ng-click = "submitNewCard(newCard)">Click me to submit!</button>
+                <form name='newCardForm' ng-submit="submitNewCard(newCard)" novalidate>
+                <input name='question' type= "text" ng-model= "newCard.question" placeholder= "Question" ng-minlength="15" required></input>
+                <div class='alertBox' role="alert">
+                    <span class='error' ng-show="newCardForm.question.$error.minlength">Question is a Too Short!</span>
+                    <span class='error' ng-show="newCardForm.question.$error.required">Question is Required!</span>
+                </div>
+                <select name="category" ng-model= "newCard.category" required>
+                    <option ng-repeat= "category in categories" value = "{{category}}">{{category}}</option>
+                </select>
+                <div class='alertBox' role="alert">
+                    <span class='error' ng-show="newCardForm.category.$error.required">Category is Required!</span>
+                </div>
+                <div ng-repeat= "answer in newCard.answers">
+                <input name="answer_{{newCard.answers.indexOf(answer)}}" type= "text" ng-model="newCard.answers[$index].text" placeholder="Enter answer choice {{$index+1}}" ng-maxlength='40' required></input><input type="checkbox" ng-model="newCard.answers[$index].correct">correct: {{newCard.answers[$index].correct}}</input>
+                <div class='alertBox' role="alert">
+                    <span class='error' ng-show="newCardForm.answer_{{newCard.answers.indexOf(answer)}}.$error.maxlength">Answer is too long!</span>
+                    <span class='error' ng-show="newCardForm.answer_{{newCard.answers.indexOf(answer)}}.$error.required">Answer is required!</span>
+                </div>
+                </div>
+                <input ng-click="finish()" ng-show="newCardForm.$valid" type="submit" value="Submit" id="submit"/>
+            </form>
         </div>
         <div ng-controller="MainController">
             <div ng-include="statistics"></div>

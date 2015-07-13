@@ -1,4 +1,4 @@
-app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFactory) {
+app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFactory, $rootScope) {
 
     $scope.statistics = '../statistics.html';
     $scope.loading = true;
@@ -6,6 +6,8 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
     FlashCardsFactory.getFlashCards().then(function(data){
         $scope.loading = false;
         $scope.flashCards = data;
+        $rootScope.data = data;
+        console.log("new data", data);
     });
     
     $scope.categories = [
