@@ -7,6 +7,16 @@
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
     </head>
     <body ng-app="FlashCards">
+        <div ng-controller="NewCardController">
+            <input type= "text" ng-model= "newCard.question" placeholder= "Write a question"></input>
+            <select ng-model= "newCard.category">
+            <option ng-repeat= "category in categories" value = "{{category}}">{{category}}</option>
+            </select>
+            <div ng-repeat= "answer in newCard.answers">
+            <input type = "text"  ng-model="newCard.answers[$index].text" placeholder="Enter answer choice {{$index+1}}"></input><input type="checkbox" ng-model="newCard.answers[$index].correct">correct: {{newCard.answers[$index].correct}}</input>
+            </div>
+            <button type="button" ng-click = "submitNewCard(newCard)">Click me to submit!</button>
+        </div>
         <div ng-controller="MainController">
             <div ng-include="statistics"></div>
             <div><button border-on-hover class='category-button' ng-class="{active: activeCat === category}" ng-repeat="category in categories" ng-click="getCategoryCards(category)">{{ category }}</button></div>
@@ -20,7 +30,9 @@
             <script src='js/directives/flashCard.js'></script>
         	<script src="/js/controllers/MainController.js"></script>
             <script src="/js/controllers/StatsController.js"></script>
+            <script src="/js/controllers/NewCardController.js"></script>
             <script src="/js/factories/ScoreFactory.js"></script>
             <script src="/js/factories/FlashCardsFactory.js"></script>
+            <script src="/js/factories/NewCardFactory.js"></script>
     </body>
 </html>
